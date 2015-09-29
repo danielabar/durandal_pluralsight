@@ -245,3 +245,7 @@ It's called by Durandal when the view is loaded.
 Each route entry in the router array represents a page in the application.
 
 Router watches the url and loads different pages accordingly.
+
+Empty string in route entry means this route is also the default view.
+
+Setting nav to true tells Durandal to include this entry in the array of routes for the navigation bar.

@@ -29,6 +29,7 @@
     "waits": false,
     "waitsFor": false,
     "runs": false,
-    "define": false
+    "define": false,
+    "requirejs": false
   }
 }
