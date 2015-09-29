@@ -1,14 +1,16 @@
-define(['durandal/system'], function(system) {
+define(['durandal/system', 'services/flashCardService'], function(system, service) {
   var vm = {};
 
+  var catalogNames = [];
+
   vm.activate = function() {
-    // use system.defer and setTimeout to simulate waiting for an ajax request
-    return system.defer(function(def) {
-      setTimeout(function() {
-        system.log('*** activate catalog inside timeout');
-        def.resolve();
-      }, 2000);
-    });
+    system.log('*** activating catalog');
+    return service.catalogNames()
+      .done(function(data) {
+        // NOTE: For data binding, the value must always be set through the view model
+        // so that the view gets updated when the value changes.
+        vm.catalogNames = data;
+      });
   };
 
   vm.attached = function() {

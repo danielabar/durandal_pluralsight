@@ -15,6 +15,19 @@
       - [index.html](#indexhtml)
       - [main.js](#mainjs)
       - [shell viewModel](#shell-viewmodel)
+  - [Composition](#composition)
+  - [Page Life Cycle](#page-life-cycle)
+    - [Activation Life Cycle](#activation-life-cycle)
+      - [Promises](#promises)
+    - [Composition Life Cycle](#composition-life-cycle)
+  - [Data Binding](#data-binding)
+    - [Text Binding](#text-binding)
+    - [Click Binding](#click-binding)
+    - [Value Binding](#value-binding)
+    - [CSS Binding](#css-binding)
+    - [Foreach Binding](#foreach-binding)
+      - [Binding Context](#binding-context)
+    - [Two-way Data Binding](#two-way-data-binding)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -346,3 +359,88 @@ Functions available are:
 * `attached()` view has been loaded into the dom, now you can use jQuery selectors to interact with it.
 * `detached()` fired when view is removed from dom
 * `compositionComplete()` last one called in lifecycle. If have multiple views being composed together, complete function called after ALL the views have been composed and inserted in the dom. Here could use jQuery selectors and events to wire up events across multiple views.
+
+## Data Binding
+
+Ability to bind user interface to code. i.e. binding HTML to JavaScript.
+For example, bind text inside a span to a property on viewModel.
+Or bind an array of objects in the view model to an unordered list of items in the view.
+
+Durandal uses Knockout.js for data binding. Syntax makes use of HTML5 `data-` attribute.
+Knockout uses `data-bind`. General syntax is:
+
+```
+data-bind="bindingName: propertyBeingBoundOnViewModel"
+```
+
+Knockout comes with many built-in data bindings, here are a few.
+
+### Text Binding
+
+Causes associated dom element to display text value of parameter.
+
+```html
+<h2 data=bind="text: cardTitle"></h2>
+```
+
+### Click Binding
+
+Bind function on viewModel to click event in view. Can bind to a button, anchor tag, or even a div.
+
+```html
+data-bind="click: goToCards"
+```
+
+### Value Binding
+
+Used in input, select, textarea. Represents the value of the input.
+Useful in forms to bind user input to viewModel.
+
+```html
+data-bind="value: useName"
+```
+
+### CSS Binding
+
+Add or remove css classes in html based on state of the model.
+Takes an object literal that specifies css class to be applied, and boolean property to bind to.
+If property is true, css class will be added to dom element, otherwise will be removed.
+
+```html
+data-bind="css: {classToAddOrRemove: booleanProperty}"
+```
+
+### Foreach Binding
+
+Bind an array of objects to the UI. Dom elements can be repeated for each item in the array.
+For example, create a list item for each name in an array of names:
+
+```html
+<ul data-bind="foreach: catalogNames">
+  <li>
+    <div>
+      <p data-bind="text: $data"></p>
+    </div>
+  </li>
+</ul>
+```
+
+#### Binding Context
+
+When looping over an array, current element is represented by `$data`.
+
+`$parent` represents viewModel object. Useful in foreach binding to bind to functions on the parent.
+
+`$parents` array of nested viewModels. For example, could have forEach loops nested inside eachother.
+
+`$root` all the way up to main viewModel.
+
+### Two-way Data Binding
+
+If the javascript is updated, the UI is updated as well. And when UI is updated, javascript will be udpated.
+
+Knockout accomplishes this with _observables_, which keep track of the current value,
+and raise events when the value changes.
+
+For data binding, the value must always be set through the view model,
+so that the view gets updated when the value changes. [Example](FlashCards/app/viewmodels/catalog.js)
