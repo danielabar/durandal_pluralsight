@@ -43,3 +43,36 @@ Note that routes can have a title:
 ```
 { route: 'helloOSX', moduleId: 'viewmodels/helloOSX', title: 'Hello OS X', nav: true }
 ```
+
+## Conventions and Architecture
+
+### Model View Patterns
+
+Variations such as MVC (controller), MVP (presenter), MVVM (viewModel).
+They all have in common separation of view from state and behaviour.
+
+Durandal calls itself MV*. Can be used with any of the above patterns. This course will use MVVM.
+
+### View
+
+HTML and stylesheets. Responsbile for visual portion of application. Has no behaviour.
+
+### Model
+
+Knowledge behind the application, has all data and application logic.
+
+### ViewModel
+
+Lies in between the view and the model. Data bound to the view.
+
+As user updates the view, viewModel gets updated.
+
+When viewModel gets updated, view is updated as well.
+
+ViewModel holds the state for the view and handles the functionality.
+
+ViewModel also has access to the model, and can pass user actions out to the model to execute application logic,
+and then update the view as needed.
+
+View and ViewModel are central to Durandal. Every page in the application has a View and ViewModel pair.
+They have the same name except for the file extension.
