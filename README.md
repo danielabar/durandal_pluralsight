@@ -274,3 +274,67 @@ data-bind="compse: 'viewmodels/navbar'"
 ```
 
 Durandal will get the viewModel, matching view, bind them together, then insert the view into the DOM.
+
+## Page Life Cycle
+
+Orchestration of events as pages move in and out of view.
+
+Implemented with functions in the viewModel.
+
+### Activation Life Cycle
+
+Controls activating and deactivating of page. Functions are
+
+* `canDeactivate()`
+* `canActivate()`
+* `deactivate()`
+* `activate()`
+
+Navigating from page A to B, Durandal fires canDeactivate event on page A.
+
+If it returns true, Durandal will fire canActivate method on the destination page B.
+
+If that returns true, Durandal will proceed with changing the page,
+calling activate on the new page, and deactivate on the old page.
+
+Returning false from canDeactive or canActivate will stop the page transition.
+
+You can also return a redirect object to send user to a new page.
+
+#### Promises
+
+Activate is where you would call the server to get data. If you return a Promise,
+Durandal will wait until its resolved before loading the view.
+
+By default, Durandal uses jQuery promises, but it can be customized to use other promise libraries such as Q.
+
+The Promise object has methods to call to register functions to be executed at some point in the future.
+
+`done()` method is called when promise resolves successfully. If something goes wrong `fail()` is called.
+
+Can also register `always()` method to execute regardless of success or failure.
+
+`then()` method takes success function and fail function.
+
+`when()` takes a collection of promises, so Durandal will wait till they are _all_ resolved.
+
+```
+return $.when(promise1, promise2, promise3);
+```
+
+Every function in activation lifecycle can take a promise as a return value.
+If a promise is returned, the next phase of the lifecycle will not be executed until this promise is resolved.
+
+### Composition Life Cycle
+
+Responsible for taking a view and viewModel, binding them together, and inserting them into the DOM.
+Functions available are:
+
+* `getView()` returns HTML for the view. This can be used to create the page dynamically in JavaScript.
+* `viewUrl` parameter to specify url to an html file in the viewModel, insted of using naming convention.
+* `activate()` shared by both life cycles, good place to go to server and get data, return a promise.
+* `binding()` executed right before the page is data bound
+* `bindingComplete()` executed when viewModel has been bound to the view
+* `attached()` view has been loaded into the dom, now you can use jQuery selectors to interact with it.
+* `detached()` fired when view is removed from dom
+* `compositionComplete()` last one called in lifecycle. If have multiple views being composed together, complete function called after ALL the views have been composed and inserted in the dom. Here could use jQuery selectors and events to wire up events across multiple views.
