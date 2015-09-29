@@ -299,7 +299,15 @@ calling activate on the new page, and deactivate on the old page.
 
 Returning false from canDeactive or canActivate will stop the page transition.
 
-You can also return a redirect object to send user to a new page.
+You can also return a redirect object to send user to a new page. For example,
+every tiem user tries to navigate to about page, they'll be redirected to catalog page:
+
+```javascript
+// viewModels/about.js
+vm.canActivate = function() {
+  return {redirect: '#catalog'};
+};
+```
 
 #### Promises
 
