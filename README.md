@@ -249,3 +249,28 @@ Router watches the url and loads different pages accordingly.
 Empty string in route entry means this route is also the default view.
 
 Setting nav to true tells Durandal to include this entry in the array of routes for the navigation bar.
+
+## Composition
+
+Avoid having all code in one module by following the _Single Responsibility Principle_.
+A class or module should have one and only one reason to change.
+
+For example, the navigation bar can be in a separate component from rest of application.
+
+Durandal's _compose binding_ supports bringing together smaller pieces into the application.
+
+One option is to compose a _partial view_, which is just an html file, with no matching javascript viewModel file.
+
+```
+data-bind="compose: 'navbar.html'"
+```
+
+Durandal will look for navbar.html in the views folder (if conventions are in use), data bind it to the parent view model, and then insert it into the DOM.
+
+Can also compose using a view/viewModel pair:
+
+```
+data-bind="compse: 'viewmodels/navbar'"
+```
+
+Durandal will get the viewModel, matching view, bind them together, then insert the view into the DOM.
