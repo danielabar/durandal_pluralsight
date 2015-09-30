@@ -1,4 +1,6 @@
-﻿define(['plugins/router', 'durandal/app'], function (router, app) {
+'use strict';﻿
+
+define(['plugins/router', 'durandal/app'], function (router, app) {
     return {
         router: router,
         search: function() {
@@ -10,7 +12,7 @@
             router.map([
                 { route: ['', 'catalog'], title: 'Catalog', moduleId: 'viewmodels/catalog', nav: true},
                 { route: ['about'], title: 'About', moduleId: 'viewmodels/about', nav: true},
-                { route: ['cards/:param1'], hash: '#cards', title: 'Cards', moduleId: 'viewmodels/cards', nav: false}
+                { route: ['cards/:param1*details'], hash: '#cards', title: 'Cards', moduleId: 'viewmodels/cards', nav: false}
             ]).buildNavigationModel();
 
             return router.activate();

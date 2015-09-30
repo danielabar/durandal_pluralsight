@@ -585,3 +585,65 @@ specify 'plugins/router' as a module dependency. Then use it:
 ```javascript
 router.navigate('#cards/' + encodeURIComponent(name));
 ```
+
+### Child Routers
+
+Support second level of navigation within a page. Can also go a level deeper "grandchild".
+
+Start with adding a special parameter in route configuration, called a "splat".
+
+```
+route: 'cards/:name*details'
+```
+
+A splat is a placeholder in the url that starts with an asterisk. This tells the main router to pass
+on any additional portion of the url to a child router.
+
+In the example below, {Id/0} is the splat, passed on to the child router.
+
+```
+http://localhost:4000/#cards/Multiplication/Id/0
+```
+
+To create a child router, use the router plugin.
+
+```javascript
+define(['plugins/router'], function(router) {
+  var vm = {};
+
+  vm.router = router.createChildRouter()
+    .makeRelative({
+      route: 'cards/:param1'
+    })
+    .map([
+      {
+        route: ['id(/:param2)', ''],
+        moduleId: 'viewmodels/card'
+      }
+    ])
+    .buildNavigationModel();
+
+  return vm;
+});
+```
+
+`makeRelative` tells the child router which splat parameters its supposed to handle. Takes in an object literal,
+with a 'route' property. This is the first part of the route in the main router.
+
+`map` takes an array of routes, just like the main router does. Defines what we expect to see in the splat parameters.
+
+`buildNavigationModel` finishes the router configuration.
+
+Also need to add a child router data binding to the html
+
+```html
+<div class="row" data-bind="router: {transition: 'entrace'}"></div>
+```
+
+Activate methods of a child router receive ALL route parameters:
+
+```javascript
+vm.activate = function(name, id) {
+
+};
+```

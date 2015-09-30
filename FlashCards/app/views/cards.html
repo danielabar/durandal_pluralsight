@@ -4,6 +4,9 @@
     <div class="row status">
       <span class="selectedName" data-bind="text: selected.name"></span>
     </div>
+
+    <!-- Composition to include the card detail view inside the cards view -->
+    <div class="row" data-bind="router: {transition: 'entrance'}"></div>
   </div>
 
   <div data-bind="visible: selected.found === false">

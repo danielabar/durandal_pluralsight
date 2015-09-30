@@ -9,7 +9,7 @@ define(
 
     vm.goToCards = function(name) {
       console.log('*** deck selected: ' + name);
-      router.navigate('#cards/' + encodeURIComponent(name));
+      router.navigate('#cards/' + encodeURIComponent(name) + '/id/0');
     };
 
     vm.activate = function() {
