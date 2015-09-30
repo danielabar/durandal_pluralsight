@@ -1,27 +1,32 @@
-define(['durandal/system', 'services/flashCardService'], function(system, service) {
-  var vm = {};
+define(
+  ['durandal/system',
+  'services/flashCardService',
+  'plugins/router'],
+  function(system, service, router) {
+    var vm = {};
 
-  vm.catalogNames = [];
+    vm.catalogNames = [];
 
-  vm.goToCards = function(name) {
-    console.log('*** deck selected: ' + name);
-  };
+    vm.goToCards = function(name) {
+      console.log('*** deck selected: ' + name);
+      router.navigate('#cards/' + encodeURIComponent(name));
+    };
 
-  vm.activate = function() {
-    system.log('*** activating catalog');
-    return service.catalogNames()
-      .done(function(data) {
-        vm.catalogNames = data;
-      });
-  };
+    vm.activate = function() {
+      system.log('*** activating catalog');
+      return service.catalogNames()
+        .done(function(data) {
+          vm.catalogNames = data;
+        });
+    };
 
-  vm.attached = function() {
-    system.log('*** attached catalog');
-  };
+    vm.attached = function() {
+      system.log('*** attached catalog');
+    };
 
-  vm.canDeactivate = function() {
-    return true;
-  };
+    vm.canDeactivate = function() {
+      return true;
+    };
 
-  return vm;
+    return vm;
 });

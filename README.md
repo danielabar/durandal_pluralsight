@@ -501,3 +501,87 @@ Note that Revealing Module Pattern does not work well with Observable Plugin. Be
 private properties that can only be modified internally. However, the observable plugin adds getters and
 setters to the returned object literal, that raise events when the property is changed. But if you modify
 private variables, it doesn't go through the getters and setters, and data bound properties will never be updated.
+
+## Routing
+
+Ability to turn url string into desired view for the user. All client-side routes have hash '#' in url.
+Can have complex routes containing prameters, for example: http://localhost:4000/#cards/:deckid/id/:cardid
+
+* Enable the router plugin (main.js)
+* Configure routes (shell.js in `router.map`)
+* Add a router data binding (shell.html)
+
+### Router data binding
+
+Whatever the active view is, it will be displayed inside the router data binding.
+
+```html
+<div class="page-host" data-bind="router: { transition:'entrance' }"></div>
+```
+
+### Route Object
+
+```javascript
+{
+  route: ['catalog', ''],
+  title: 'Catalog',
+  moduleId: 'viewmodels/catalog',
+  nav: true
+}
+```
+
+#### route property
+
+The `route` property can take a string or array of strings. If it's defined as just a string, for example 'catalog',
+then the corresponding url would be `http://localhost:4000/#catalog`. By convention, url is hash plus string in route.
+
+The empty string is used to mark the default route. Can also combine an empty string and name in the route,
+then both urls `http://localhost:4000` and `http://localhost:4000/#catalog` will go to same page.
+
+#### ritle property
+
+This is the value that will be shown in the browser navigation bar. By convention will be upper case version of route,
+unless overridden in the title property.
+
+#### moduleId property
+
+Path to the view model.
+
+#### nav property
+
+If this property is true, then the route will be displayed in the navigation bar. But if set to false, will not be in navigation bar. Can still navigate there in the application.
+
+### Route Parameters
+
+Parameter in url is defined with a colon, for example `route: 'cards/:name'`.
+In this case, `name` is a required parameter. Url would look like `http://localhost:4000/cards/Multiplication`
+
+Route parameters are passed into the `activate` function in the viewModel, in the order they are specified in the url.
+
+```javascript
+vm.activate = function(name) {
+
+};
+```
+
+Can also specify optional parameters by wrapping it in parenthesis. In this case, code should check if it exists before using it, for example
+
+```javascript
+vm.selectedName = '';
+vm.activate = function(name) {
+  vm.selectedName = name || 'Default Value';
+};
+```
+
+If the route has parameters, should also state the route hash, otherwise Durandal will infer them. For exmaple:
+
+```javascript
+{ route: ['cards/:param1'], hash: '#cards', title: 'Cards', moduleId: 'viewmodels/cards', nav: false}
+```
+
+To navigate to a route programmatically, for example, from a click handler in a viewModel,
+specify 'plugins/router' as a module dependency. Then use it:
+
+```javascript
+router.navigate('#cards/' + encodeURIComponent(name));
+```
