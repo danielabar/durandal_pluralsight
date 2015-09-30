@@ -1,8 +1,10 @@
 <section>
-  <ul class="list-inline">
-    <li class="col-xs-12 col-sm-6 col-md-3">
+  <ul class="list-inline" data-bind="foreach: catalogNames">
+    <!-- In a for each loop, binding context is current item in array, use $parent to get access to functions on vm -->
+    <li class="col-xs-12 col-sm-6 col-md-3" data-bind="click: $parent.goToCards">
       <div class="well">
-        <p class="lead">Names go here</p>
+        <!-- In a for each loop, current binding is #data -->
+        <p class="lead" data-bind="text: $data"></p>
       </div>
     </li>
   </ul>

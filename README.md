@@ -366,6 +366,9 @@ Ability to bind user interface to code. i.e. binding HTML to JavaScript.
 For example, bind text inside a span to a property on viewModel.
 Or bind an array of objects in the view model to an unordered list of items in the view.
 
+For data binding, the value must always be set through the view model,
+so that the view gets updated when the value changes. [Example](FlashCards/app/viewmodels/catalog.js)
+
 Durandal uses Knockout.js for data binding. Syntax makes use of HTML5 `data-` attribute.
 Knockout uses `data-bind`. General syntax is:
 
@@ -389,6 +392,15 @@ Bind function on viewModel to click event in view. Can bind to a button, anchor 
 
 ```html
 data-bind="click: goToCards"
+```
+
+Knockout passes in the current binding context when function is invoked. For example
+
+```javascript
+// some viewmodel.js
+vm.goToCards = function(name) {
+  // do something with name
+};
 ```
 
 ### Value Binding
@@ -440,7 +452,52 @@ When looping over an array, current element is represented by `$data`.
 If the javascript is updated, the UI is updated as well. And when UI is updated, javascript will be udpated.
 
 Knockout accomplishes this with _observables_, which keep track of the current value,
-and raise events when the value changes.
+and raise events when the value changes. If you want to use two-way data bind,g _must_ use observables.
 
-For data binding, the value must always be set through the view model,
-so that the view gets updated when the value changes. [Example](FlashCards/app/viewmodels/catalog.js)
+```javascript
+vm.firstName = ko.observable('Mike');
+vm.lasttName = ko.observable('Dudley');
+
+vm.fulName = ko.computed(function() {
+  return vm.firstName() + vm.lastName();
+}, this);
+```
+
+As the viewModel gets larger, can be difficult to maintain with many observables, or having a mix of observable
+and non-observable properties.
+
+#### Observable Plugin
+
+Allows you to have two-way data binding with plain old JS objects.
+This plugin replaces properties with ES5 getters and setters, _before_ binding view and viewModel and inserting into the DOM.
+
+To enable to plugin
+
+```javascript
+app.configurePlugins({
+  // other stuff
+  observable: true
+});
+```
+
+Plugin works, as long as you always go through viewModel property to set the value.
+
+```javascript
+var vm = {};
+vm.selectedCardDec = [];
+vm.select = function(cardDeck) {
+  // Going through vm object ensures value will go through getters and setters
+  // added by the observable plugin
+  vm.selectedCardDeck = cardDeck;
+};
+return vm;
+```
+
+Good practice: Create the viewModel as an object literal, attach all the properties and functions,
+then return this object literal as the public interface of the module. This way, all the manipulation
+of the viewModel goes through the viewModel object literal.
+
+Note that Revealing Module Pattern does not work well with Observable Plugin. Because that module creates
+private properties that can only be modified internally. However, the observable plugin adds getters and
+setters to the returned object literal, that raise events when the property is changed. But if you modify
+private variables, it doesn't go through the getters and setters, and data bound properties will never be updated.

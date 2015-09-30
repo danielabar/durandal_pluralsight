@@ -1,14 +1,16 @@
 define(['durandal/system', 'services/flashCardService'], function(system, service) {
   var vm = {};
 
-  var catalogNames = [];
+  vm.catalogNames = [];
+
+  vm.goToCards = function(name) {
+    console.log('*** deck selected: ' + name);
+  };
 
   vm.activate = function() {
     system.log('*** activating catalog');
     return service.catalogNames()
       .done(function(data) {
-        // NOTE: For data binding, the value must always be set through the view model
-        // so that the view gets updated when the value changes.
         vm.catalogNames = data;
       });
   };
