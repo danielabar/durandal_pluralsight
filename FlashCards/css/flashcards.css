@@ -1,0 +1,23 @@
+.card .face {
+  position: absolute;
+  min-height: 200px;
+  transition: .8s ease-in-out;
+}
+
+.card .back {
+  backface-visibility: hidden;
+  transform: perspective(1500px) rotateY(-180deg);
+}
+
+.card .front {
+  backface-visibility: hidden;
+  transform: perspective(1500px) rotateY(0deg);
+}
+
+.card.flip .back {
+  transform: perspective(1500px) rotateY(0);
+}
+
+.card.flip .front {
+  transform: perspective(1500px) rotateY(180deg);
+}
