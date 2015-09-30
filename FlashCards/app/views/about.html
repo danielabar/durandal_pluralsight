@@ -1,4 +1,9 @@
 <div class="jumbotron">
   <h1>Flash Cards</h1>
-  <p>Built using Durandal and Bootstrap</p>
+  <p>Built with:</p>
+  <ul data-bind="foreach: builtWith">
+    <li data-bind="text: $data"></li>
+  </ul>
+  <button class="btn btn-default" data-bind="click: clearList">Clear</button>
+  <button class="btn btn-default" data-bind="click: resetList">Reset</button>
 </div>
