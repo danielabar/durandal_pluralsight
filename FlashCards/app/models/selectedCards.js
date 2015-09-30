@@ -14,6 +14,11 @@ define(
       random: false
     };
 
+    app.on('randomChanged').then(function(data) {
+      system.log('Random changed: ' + data);
+      module.random = data;
+    });
+
     module.select = function(name) {
       return service.getCards(name)
         .done(function(data) {
@@ -40,6 +45,7 @@ define(
 
     module.nextIndex = function() {
       if (module.random) {
+        // FIXME Course did not cover this feature so its not implemented
         return random.pickRandom(module.cards);
       }
       if (module.index < module.cards.length - 1) {

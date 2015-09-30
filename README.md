@@ -647,3 +647,41 @@ vm.activate = function(name, id) {
 
 };
 ```
+
+## Events
+
+Communication between views without having the views knows about each other.
+
+Publish-subscribe pattern allows for application-wide messaging.
+
+### Publish
+
+Need a reference to durandal app module, use the `trigger` function:
+
+```javascript
+define(['durandal/app'], function(app) {
+  ...
+  app.trigger('eventName', eventData);
+  ...
+});
+```
+
+Trigger publishes an event with name of the event name as first parameer,
+and optional second parameter for any data to be sent along with event.
+
+### Subscribe
+
+Also need reference to durandal app module, use the `on` method:
+
+```javascript
+define(['durandal/app'], function(app) {
+  ...
+  app.on('eventName').then(function(data) {
+    // do something...
+  });
+  ...
+});
+```
+
+Note when add a checkbox to template, and binding a click handler, Knockout prevents default action from occurring.
+Must return true from the click handler to allow event to proceed.
