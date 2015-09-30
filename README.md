@@ -28,6 +28,19 @@
     - [Foreach Binding](#foreach-binding)
       - [Binding Context](#binding-context)
     - [Two-way Data Binding](#two-way-data-binding)
+      - [Observable Plugin](#observable-plugin)
+  - [Routing](#routing)
+    - [Router data binding](#router-data-binding)
+    - [Route Object](#route-object)
+      - [route property](#route-property)
+      - [ritle property](#ritle-property)
+      - [moduleId property](#moduleid-property)
+      - [nav property](#nav-property)
+    - [Route Parameters](#route-parameters)
+    - [Child Routers](#child-routers)
+  - [Events](#events)
+    - [Publish](#publish)
+    - [Subscribe](#subscribe)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
