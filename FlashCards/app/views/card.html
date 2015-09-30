@@ -1,7 +1,12 @@
 <div class="">
   <div class="card">
-    <div class="front face">
-      <h2 data-bind="text: indexParam"></h2>
+    <div class="col-xs-12 well front face">
+      <h4 data-bind="text: selected.card.frontHeading"></h4>
+      <h4 data-bind="text: selected.card.front"></h4>
+    </div>
+    <div class="col-xs-12 well back face">
+      <h4 data-bind="text: selected.card.backHeading"></h4>
+      <h4 data-bind="text: selected.card.back"></h4>
     </div>
   </div>
 </div>

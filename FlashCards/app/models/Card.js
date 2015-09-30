@@ -1,9 +1,9 @@
 define(function() {
-  var Card = function(qLabel, question, aLabel, answer) {
-    this.qLabel = qLabel;
-    this.question = question;
-    this.aLabel = aLabel;
-    this.answer = answer;
+  var Card = function(frontHeading, front, backHeading, back) {
+    this.frontHeading = frontHeading;
+    this.front = front;
+    this.backHeading = backHeading;
+    this.back = back;
   };
 
   return Card;
